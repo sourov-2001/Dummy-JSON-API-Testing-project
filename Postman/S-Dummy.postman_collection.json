@@ -1,0 +1,1105 @@
+{
+  "info": {
+    "_postman_id": "cdaacde6-4710-4c4c-9227-2644a77adca3",
+    "name": "S-Dummy",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "47107565",
+    "_collection_link": "https://go.postman.co/collection/47107565-cdaacde6-4710-4c4c-9227-2644a77adca3?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login user and get tokens",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Parse the JSON response body and save it into a variable for easy access\r\nlet jsonData = pm.response.json();\r\n\r\n// Extract the 'accessToken' from the response automatically and save it as an environment variable named 'token'\r\npm.environment.set(\"token\", jsonData.accessToken);\r\n\r\n// Test 1: Check if the server returned a success status code (200 OK)\r\npm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n// Test 2: Check if the 'username' in the response matches \"emilys\"\r\npm.test(\"Username is emilys\", function () {\r\n    pm.expect(jsonData.username).to.eql(\"emilys\");\r\n});\r\n\r\n// Test 3: Check if the 'accessToken' exists in the response\r\npm.test(\"Access token exists\", function () {\r\n    pm.expect(jsonData.accessToken).to.not.be.undefined;\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"emilys\",\r\n  \"password\": \"emilyspass\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base-url}}/auth/login",
+              "host": [
+                "{{base-url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get current user profile",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test 1: Check if the server returned a success status code (200 OK)\r\npm.test(\"Status Code is Correct\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n// Test 2: Check if the server responded quickly (under 1000 milliseconds)\r\npm.test(\"Response Time Less Than 1000 ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\n// Test 3: Check if the response contains the 'Content-Type' header\r\npm.test(\"Content-Type is JSON\", function () {\r\n    pm.response.to.have.header(\"Content-Type\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base-url}}/auth/me",
+              "host": [
+                "{{base-url}}"
+              ],
+              "path": [
+                "auth",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Handles user authentication, token generation and profile verification."
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "Get All Products",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test 1: Check if the server returned a success status code (200 OK)\r\npm.test(\"Status Code is Correct\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n// Test 2: Check if the server responded quickly (under 1000 milliseconds)\r\npm.test(\"Response Time Less Than 1000 ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(1000);\r\n});\r\n\r\n// Test 3: Check if the response contains the 'Content-Type' header\r\npm.test(\"Content-Type is JSON\", function () {\r\n    pm.response.to.have.header(\"Content-Type\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base-url}}/products",
+              "host": [
+                "{{base-url}}"
+              ],
+              "path": [
+                "products"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Single Product",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test 1: Check if the server returned a success status code (200 OK)\r\npm.test(\"Status Code is Correct\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n// Test 2: Check if the server responded quickly (under 1000 milliseconds)\r\npm.test(\"Response Time Less Than 1000 ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(1000);\r\n});\r\n\r\n// Test 3: Check if the response contains the 'Content-Type' header\r\npm.test(\"Content-Type is JSON\", function () {\r\n    pm.response.to.have.header(\"Content-Type\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base-url}}/products/{{product-id}}",
+              "host": [
+                "{{base-url}}"
+              ],
+              "path": [
+                "products",
+                "{{product-id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search Product",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test 1: Check if the server returned a success status code (200 OK)\r\npm.test(\"Status Code is Correct\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n// Test 2: Check if the server responded quickly (under 1000 milliseconds)\r\npm.test(\"Response Time Less Than 1000 ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\n// Test 3: Check if the response contains the 'Content-Type' header\r\npm.test(\"Content-Type is JSON\", function () {\r\n    pm.response.to.have.header(\"Content-Type\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base-url}}/products/search?q=phone",
+              "host": [
+                "{{base-url}}"
+              ],
+              "path": [
+                "products",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "phone"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Sort Products",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test 1: Check if the server returned a success status code (200 OK)\r\npm.test(\"Status Code is Correct\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n// Test 2: Check if the server responded quickly (under 1000 milliseconds)\r\npm.test(\"Response Time Less Than 1000 ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(1000);\r\n});\r\n\r\n// Test 3: Check if the response contains the 'Content-Type' header\r\npm.test(\"Content-Type is JSON\", function () {\r\n    pm.response.to.have.header(\"Content-Type\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base-url}}/products?sortBy=title&order=asc",
+              "host": [
+                "{{base-url}}"
+              ],
+              "path": [
+                "products"
+              ],
+              "query": [
+                {
+                  "key": "sortBy",
+                  "value": "title"
+                },
+                {
+                  "key": "order",
+                  "value": "asc"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Product Categories",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test 1: Check if the server returned a success status code (200 OK)\r\npm.test(\"Status Code is Correct\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n// Test 2: Check if the server responded quickly (under 1000 milliseconds)\r\npm.test(\"Response Time Less Than 1000 ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(1000);\r\n});\r\n\r\n// Test 3: Check if the response contains the 'Content-Type' header\r\npm.test(\"Content-Type is JSON\", function () {\r\n    pm.response.to.have.header(\"Content-Type\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base-url}}/products/categories",
+              "host": [
+                "{{base-url}}"
+              ],
+              "path": [
+                "products",
+                "categories"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Products By Categories",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test 1: Check if the server returned a success status code (200 OK)\r\npm.test(\"Status Code is Correct\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n// Test 2: Check if the server responded quickly (under 1000 milliseconds)\r\npm.test(\"Response Time Less Than 1000 ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(1000);\r\n});\r\n\r\n// Test 3: Check if the response contains the 'Content-Type' header\r\npm.test(\"Content-Type is JSON\", function () {\r\n    pm.response.to.have.header(\"Content-Type\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base-url}}/products/category/smartphones",
+              "host": [
+                "{{base-url}}"
+              ],
+              "path": [
+                "products",
+                "category",
+                "smartphones"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Products",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test 1: Check if the server returned a success status code (201 OK)\r\npm.test(\"Status Code is Correct\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\n// Test 2: Check if the server responded quickly (under 1000 milliseconds)\r\npm.test(\"Response Time Less Than 1000 ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(1000);\r\n});\r\n\r\n// Test 3: Check if the response contains the 'Content-Type' header\r\npm.test(\"Content-Type is JSON\", function () {\r\n    pm.response.to.have.header(\"Content-Type\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"BMW Pencil\",\r\n  \"price\": 1.99,\r\n  \"category\": \"stationery\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base-url}}/products/add",
+              "host": [
+                "{{base-url}}"
+              ],
+              "path": [
+                "products",
+                "add"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Product",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test 1: Check if the server returned a success status code (200 OK)\r\npm.test(\"Status Code is Correct\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n// Test 2: Check if the server responded quickly (under 1000 milliseconds)\r\npm.test(\"Response Time Less Than 1000 ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(2000);\r\n});\r\n\r\n// Test 3: Check if the response contains the 'Content-Type' header\r\npm.test(\"Content-Type is JSON\", function () {\r\n    pm.response.to.have.header(\"Content-Type\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"iPhone Galaxy +1\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base-url}}/products/{{product-id}}",
+              "host": [
+                "{{base-url}}"
+              ],
+              "path": [
+                "products",
+                "{{product-id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete a product",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test 1: Check if the server returned a success status code (200 OK)\r\npm.test(\"Status Code is Correct\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n// Test 2: Check if the server responded quickly (under 1000 milliseconds)\r\npm.test(\"Response Time Less Than 1000 ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(1000);\r\n});\r\n\r\n// Test 3: Check if the response contains the 'Content-Type' header\r\npm.test(\"Content-Type is JSON\", function () {\r\n    pm.response.to.have.header(\"Content-Type\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base-url}}/products/5",
+              "host": [
+                "{{base-url}}"
+              ],
+              "path": [
+                "products",
+                "5"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Validates product retrieval, search, sorting and CRUD operations."
+    },
+    {
+      "name": "Cart",
+      "item": [
+        {
+          "name": "Get all carts",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test 1: Check if the server returned a success status code (200 OK)\r\npm.test(\"Status Code is Correct\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n// Test 2: Check if the server responded quickly (under 1000 milliseconds)\r\npm.test(\"Response Time Less Than 1000 ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(1000);\r\n});\r\n\r\n// Test 3: Check if the response contains the 'Content-Type' header\r\npm.test(\"Content-Type is JSON\", function () {\r\n    pm.response.to.have.header(\"Content-Type\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base-url}}/carts",
+              "host": [
+                "{{base-url}}"
+              ],
+              "path": [
+                "carts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get single cart",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test 1: Check if the server returned a success status code (200 OK)\r\npm.test(\"Status Code is Correct\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n// Test 2: Check if the server responded quickly (under 1000 milliseconds)\r\npm.test(\"Response Time Less Than 1000 ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(1000);\r\n});\r\n\r\n// Test 3: Check if the response contains the 'Content-Type' header\r\npm.test(\"Content-Type is JSON\", function () {\r\n    pm.response.to.have.header(\"Content-Type\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base-url}}/carts/{{cart-id}}",
+              "host": [
+                "{{base-url}}"
+              ],
+              "path": [
+                "carts",
+                "{{cart-id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Sort carts",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test 1: Check if the server returned a success status code (200 OK)\r\npm.test(\"Status Code is Correct\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n// Test 2: Check if the server responded quickly (under 1000 milliseconds)\r\npm.test(\"Response Time Less Than 1000 ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(1000);\r\n});\r\n\r\n// Test 3: Check if the response contains the 'Content-Type' header\r\npm.test(\"Content-Type is JSON\", function () {\r\n    pm.response.to.have.header(\"Content-Type\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base-url}}/carts?sortBy=total&order=desc",
+              "host": [
+                "{{base-url}}"
+              ],
+              "path": [
+                "carts"
+              ],
+              "query": [
+                {
+                  "key": "sortBy",
+                  "value": "total"
+                },
+                {
+                  "key": "order",
+                  "value": "desc"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add new cart",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test 1: Check if the server returned a success status code (201 OK)\r\npm.test(\"Status Code is Correct\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\n// Test 2: Check if the server responded quickly (under 1000 milliseconds)\r\npm.test(\"Response Time Less Than 1000 ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(1000);\r\n});\r\n\r\n// Test 3: Check if the response contains the 'Content-Type' header\r\npm.test(\"Content-Type is JSON\", function () {\r\n    pm.response.to.have.header(\"Content-Type\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"userId\": 1,\r\n  \"products\": [\r\n    {\r\n      \"id\": 144,\r\n      \"quantity\": 4\r\n    },\r\n    {\r\n      \"id\": 98,\r\n      \"quantity\": 1\r\n    }\r\n  ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base-url}}/carts/add",
+              "host": [
+                "{{base-url}}"
+              ],
+              "path": [
+                "carts",
+                "add"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Cart",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test 1: Check if the server returned a success status code (200 OK)\r\npm.test(\"Status Code is Correct\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n// Test 2: Check if the server responded quickly (under 1000 milliseconds)\r\npm.test(\"Response Time Less Than 1000 ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(1000);\r\n});\r\n\r\n// Test 3: Check if the response contains the 'Content-Type' header\r\npm.test(\"Content-Type is JSON\", function () {\r\n    pm.response.to.have.header(\"Content-Type\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"merge\": true,\r\n  \"products\": [\r\n    {\r\n      \"id\": 1,\r\n      \"quantity\": 1\r\n    }\r\n  ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base-url}}/carts/{{cart-id}}",
+              "host": [
+                "{{base-url}}"
+              ],
+              "path": [
+                "carts",
+                "{{cart-id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete a cart",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test 1: Check if the server returned a success status code (200 OK)\r\npm.test(\"Status Code is Correct\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n// Test 2: Check if the server responded quickly (under 1000 milliseconds)\r\npm.test(\"Response Time Less Than 1000 ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(1000);\r\n});\r\n\r\n// Test 3: Check if the response contains the 'Content-Type' header\r\npm.test(\"Content-Type is JSON\", function () {\r\n    pm.response.to.have.header(\"Content-Type\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base-url}}/carts/5",
+              "host": [
+                "{{base-url}}"
+              ],
+              "path": [
+                "carts",
+                "5"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Tests cart creation, update and deletion."
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Get All Users",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test 1: Check if the server returned a success status code (200 OK)\r\npm.test(\"Status Code is Correct\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n// Test 2: Check if the server responded quickly (under 1000 milliseconds)\r\npm.test(\"Response Time Less Than 1000 ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(1000);\r\n});\r\n\r\n// Test 3: Check if the response contains the 'Content-Type' header\r\npm.test(\"Content-Type is JSON\", function () {\r\n    pm.response.to.have.header(\"Content-Type\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base-url}}/users",
+              "host": [
+                "{{base-url}}"
+              ],
+              "path": [
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login user and get token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test 1: Check if the server returned a success status code (200 OK)\r\npm.test(\"Status Code is Correct\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n\r\n// Test 2: Check if the response contains the 'Content-Type' header\r\npm.test(\"Content-Type is JSON\", function () {\r\n    pm.response.to.have.header(\"Content-Type\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"emilys\",\r\n  \"password\": \"emilyspass\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base-url}}/user/login",
+              "host": [
+                "{{base-url}}"
+              ],
+              "path": [
+                "user",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Single User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test 1: Check if the server returned a success status code (200 OK)\r\npm.test(\"Status Code is Correct\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n// Test 2: Check if the server responded quickly (under 1000 milliseconds)\r\npm.test(\"Response Time Less Than 1000 ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(1000);\r\n});\r\n\r\n// Test 3: Check if the response contains the 'Content-Type' header\r\npm.test(\"Content-Type is JSON\", function () {\r\n    pm.response.to.have.header(\"Content-Type\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base-url}}/users/{{user-id}}",
+              "host": [
+                "{{base-url}}"
+              ],
+              "path": [
+                "users",
+                "{{user-id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search Users 1",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test 1: Check if the server returned a success status code (200 OK)\r\npm.test(\"Status Code is Correct\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n// Test 2: Check if the server responded quickly (under 1000 milliseconds)\r\npm.test(\"Response Time Less Than 1000 ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(1000);\r\n});\r\n\r\n// Test 3: Check if the response contains the 'Content-Type' header\r\npm.test(\"Content-Type is JSON\", function () {\r\n    pm.response.to.have.header(\"Content-Type\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base-url}}/users/search?q=John",
+              "host": [
+                "{{base-url}}"
+              ],
+              "path": [
+                "users",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "John"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search Users 1 Copy",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test 1: Check if the server returned a success status code (200 OK)\r\npm.test(\"Status Code is Correct\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n// Test 2: Check if the server responded quickly (under 1000 milliseconds)\r\npm.test(\"Response Time Less Than 1000 ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(1000);\r\n});\r\n\r\n// Test 3: Check if the response contains the 'Content-Type' header\r\npm.test(\"Content-Type is JSON\", function () {\r\n    pm.response.to.have.header(\"Content-Type\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base-url}}/users/search?q=Johng",
+              "host": [
+                "{{base-url}}"
+              ],
+              "path": [
+                "users",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "Johng"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update a user",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test 1: Check if the server returned a success status code (200 OK)\r\npm.test(\"Status Code is Correct\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n// Test 2: Check if the server responded quickly (under 1000 milliseconds)\r\npm.test(\"Response Time Less Than 1000 ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(1000);\r\n});\r\n\r\n// Test 3: Check if the response contains the 'Content-Type' header\r\npm.test(\"Content-Type is JSON\", function () {\r\n    pm.response.to.have.header(\"Content-Type\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"lastName\": \"Owais\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base-url}}/users/{{user-id}}",
+              "host": [
+                "{{base-url}}"
+              ],
+              "path": [
+                "users",
+                "{{user-id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete a user",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Test 1: Check if the server returned a success status code (200 OK)\r\npm.test(\"Status Code is Correct\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n// Test 2: Check if the server responded quickly (under 1000 milliseconds)\r\npm.test(\"Response Time Less Than 1000 ms\", function () {\r\n    pm.expect(pm.response.responseTime).to.be.below(1000);\r\n});\r\n\r\n// Test 3: Check if the response contains the 'Content-Type' header\r\npm.test(\"Content-Type is JSON\", function () {\r\n    pm.response.to.have.header(\"Content-Type\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base-url}}/users/5",
+              "host": [
+                "{{base-url}}"
+              ],
+              "path": [
+                "users",
+                "5"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Tests user retrieval, search and update operations."
+    },
+    {
+      "name": "Negative Test",
+      "item": [
+        {
+          "name": "Wrong Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Check that the API returns 400 for an invalid login.\r\npm.test(\"Status Code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\n// Check that an error message exists in the response.\r\npm.test(\"Error Message Exists\", function () {\r\n    var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.not.be.undefined;\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"emilys\",\r\n  \"password\": \"wrongpassword\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base-url}}/auth/login",
+              "host": [
+                "{{base-url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Invalid Product",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Check that the API returns 404 for an invalid product ID.\r\npm.test(\"Status Code is 404\", function () {\r\n    pm.response.to.have.status(404);\r\n});\r\n\r\n// Check that the response contains an error message.\r\npm.test(\"Error Message Exists\", function () {\r\n    var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.not.be.undefined;\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base-url}}/products/999999",
+              "host": [
+                "{{base-url}}"
+              ],
+              "path": [
+                "products",
+                "999999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Invalid User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Check that the API returns 404 for an invalid user ID.\r\npm.test(\"Status Code is 404\", function () {\r\n    pm.response.to.have.status(404);\r\n});\r\n\r\n// Check that an error message is returned.\r\npm.test(\"Error Message Exists\", function () {\r\n    var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.not.be.undefined;\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base-url}}/users/999999",
+              "host": [
+                "{{base-url}}"
+              ],
+              "path": [
+                "users",
+                "999999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Invalid Cart",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Check that the API returns 404 for an invalid cart ID.\r\npm.test(\"Status Code is 404\", function () {\r\n    pm.response.to.have.status(404);\r\n});\r\n\r\n// Check that an error message exists.\r\npm.test(\"Error Message Exists\", function () {\r\n    var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.not.be.undefined;\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base-url}}/carts/999999",
+              "host": [
+                "{{base-url}}"
+              ],
+              "path": [
+                "carts",
+                "999999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Wrong Endpoint",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Check that the API returns 404 for a wrong endpoint.\r\npm.test(\"Status Code is 404\", function () {\r\n    pm.response.to.have.status(404);\r\n});\r\n\r\n// Check that the response is not JSON.\r\npm.test(\"Response is not JSON\", function () {\r\n    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"text/html\");\r\n});\r\n\r\n// Check that the HTML response contains a 'Not Found' message.\r\n// pm.test(\"HTML contains Not Found\", function () {\r\n//     var responseText = pm.response.text();\r\n//     pm.expect(responseText).to.include(\"Not Found\");\r\n// });\r\n\r\n\r\n\r\n//When we send a request to a wrong URL (/invalidendpoint), the server returns an HTML 404 error page instead of JSON data.\r\n//pm.response.json() ❌ (Error):\r\n//Postman tries to read the response as JSON format. Since an HTML page is not JSON, Postman crashes and throws a syntax error.\r\n\r\n//pm.response.text() ✅ (Correct):\r\n//Postman reads the response as raw plain text (HTML text). This works safely without throwing any errors."
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base-url}}/invalidendpoint",
+              "host": [
+                "{{base-url}}"
+              ],
+              "path": [
+                "invalidendpoint"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Empty Body Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Check that the API returns 400 for an empty request body.\r\npm.test(\"Status Code is 400\", function () {\r\n    pm.response.to.have.status(400);\r\n});\r\n\r\n// Check that an error message exists.\r\npm.test(\"Error Message Exists\", function () {\r\n    var jsonData = pm.response.json();\r\n    pm.expect(jsonData.message).to.not.be.undefined;\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base-url}}/auth/login",
+              "host": [
+                "{{base-url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Wrong Method",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Check that the API does not accept the wrong HTTP method.\r\npm.test(\"Status Code shows method is not allowed\", function () {\r\n    pm.expect([404,405]).to.include(pm.response.code);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base-url}}/auth/login",
+              "host": [
+                "{{base-url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Blank Search",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// Check that the API returns 200 for a blank search.\r\npm.test(\"Status Code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\n// Check that the response contains the 'products' field.\r\npm.test(\"Products field exists\", function () {\r\n    var jsonData = pm.response.json();\r\n    pm.expect(jsonData).to.have.property(\"products\");\r\n});\r\n\r\n// Check that the 'products' field is an array.\r\npm.test(\"Products is an array\", function () {\r\n    var jsonData = pm.response.json();\r\n    pm.expect(jsonData.products).to.be.an(\"array\");\r\n});\r\n\r\n// Check that the API handles a blank search without crashing.\r\npm.test(\"Blank search handled successfully\", function () {\r\n    var jsonData = pm.response.json();\r\n    pm.expect(jsonData.total).to.be.a(\"number\");\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base-url}}/products/search?q=",
+              "host": [
+                "{{base-url}}"
+              ],
+              "path": [
+                "products",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "This folder contains negative test scenarios to verify how the API handles invalid requests, wrong inputs and error responses."
+    }
+  ],
+  "variable": [
+    {
+      "key": "base-url",
+      "value": ""
+    }
+  ]
+}
